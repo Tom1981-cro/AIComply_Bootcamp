@@ -64,6 +64,23 @@ Useful scripts:
 
 ---
 
+## Preview in GitHub Codespaces (no local setup)
+
+This repo ships a dev container (`.devcontainer/`) with Node 22 + a Postgres
+service pre-wired.
+
+1. On GitHub: **Code → Codespaces → Create codespace** on this branch.
+2. Wait for the post-create step (`npm install` + `npm run db:push`) to finish.
+3. Run `npm run dev`. Codespaces forwards **port 3000** and opens a preview;
+   the "Ports" tab gives you a shareable URL.
+
+`DATABASE_URL` and `NEXT_PUBLIC_APP_URL` are preset by the dev container, so the
+landing page and all DB-backed pages work out of the box. Add the optional
+integration keys (Resend / R2 / Lemon / PostHog) as Codespaces secrets or in a
+local `.env` to exercise those flows — **don't** override `DATABASE_URL` there.
+
+---
+
 ## Environment variables
 
 See [`.env.example`](./.env.example) for the full annotated list. Summary:
