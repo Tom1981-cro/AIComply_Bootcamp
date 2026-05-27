@@ -1,0 +1,26 @@
+# Codespaces / Dev Containers stack: a Node workspace + a Postgres service.
+# These credentials are local dev-only and intentionally non-secret.
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/javascript-node:22
+    command: sleep infinity
+    volumes:
+      - ../..:/workspaces:cached
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/aicomply_bootcamp?schema=public"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: aicomply_bootcamp
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

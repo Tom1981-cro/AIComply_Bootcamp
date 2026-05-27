@@ -1,0 +1,25 @@
+{
+  "name": "AIComply Bootcamp",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "npm install && until bash -c '</dev/tcp/db/5432' 2>/dev/null; do echo 'waiting for postgres...'; sleep 1; done && npm run db:push",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Prisma.prisma",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteUser": "node"
+}

@@ -1,0 +1,116 @@
+// Prisma schema for the EU AI Act SME Compliance Pack storefront.
+// Postgres via Prisma, mirroring AIComply infra conventions.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Tier {
+  STARTER
+  PRO
+  CONSULTANT
+}
+
+enum OrderStatus {
+  PAID
+  REFUNDED
+}
+
+// Lead-magnet capture with GDPR double opt-in.
+model LeadMagnetSubscriber {
+  id               String          @id @default(cuid())
+  email            String          @unique
+  source           String          @default("toolkit-lead-magnet")
+  tag              String          @default("source:toolkit-lead-magnet")
+  confirmed        Boolean         @default(false)
+  confirmToken     String?         @unique
+  confirmedAt      DateTime?
+  resendAudienceId String?
+  grants           DownloadGrant[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([tag])
+  @@index([confirmed])
+}
+
+// A completed purchase. Idempotent on lemonOrderId.
+model Order {
+  id                  String          @id @default(cuid())
+  lemonOrderId        String          @unique
+  email               String
+  tier                Tier
+  amount              Int // total in minor units (cents)
+  currency            String          @default("EUR")
+  country             String?
+  vatAmount           Int             @default(0) // minor units (cents)
+  status              OrderStatus     @default(PAID)
+  downloadReissueCount Int            @default(0)
+  grants              DownloadGrant[]
+  magicLinks          MagicLink[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  @@index([email])
+  @@index([tier])
+  @@index([createdAt])
+  @@index([country])
+}
+
+// Raw record of every inbound Lemon Squeezy webhook, for audit + replay.
+model WebhookEvent {
+  id             String   @id @default(cuid())
+  eventName      String
+  lemonOrderId   String?
+  signatureValid Boolean  @default(false)
+  processed      Boolean  @default(false)
+  payload        Json
+  error          String?
+  createdAt      DateTime @default(now())
+
+  @@index([eventName])
+  @@index([lemonOrderId])
+}
+
+// Magic link used to re-authenticate a buyer on the /orders/[id] page.
+model MagicLink {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  email     String
+  orderId   String
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([orderId])
+}
+
+// A download entitlement. The grant id is the opaque URL token. The download
+// route enforces expiry (1h), a max download count (5), and IP binding before
+// redirecting to a short-lived R2 presigned URL.
+model DownloadGrant {
+  id            String                @id @default(cuid())
+  fileKey       String // R2 object key, e.g. "toolkit-starter.zip"
+  label         String // human label shown in emails / UI
+  tier          Tier?
+  email         String
+  orderId       String?
+  order         Order?                @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  subscriberId  String?
+  subscriber    LeadMagnetSubscriber? @relation(fields: [subscriberId], references: [id], onDelete: SetNull)
+  maxDownloads  Int                   @default(5)
+  downloadCount Int                   @default(0)
+  boundIp       String?
+  expiresAt     DateTime
+  createdAt     DateTime              @default(now())
+
+  @@index([orderId])
+  @@index([email])
+  @@index([expiresAt])
+}
