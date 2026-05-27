@@ -7,11 +7,12 @@ import { formatMoney, cn } from "@/lib/utils";
 
 export function Tiers({ checkoutUrls }: { checkoutUrls: Record<TierKey, string | null> }) {
   return (
-    <section id="pricing" className="border-b border-border bg-surface">
+    <section id="pricing" className="border-b border-border bg-background">
       <div className="mx-auto max-w-5xl px-6 py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-semibold tracking-tight">What&apos;s inside</h2>
-          <p className="mt-3 text-muted-foreground">
+        <div className="max-w-2xl">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">02</p>
+          <h2 className="mt-3 text-3xl tracking-tight">What&apos;s inside</h2>
+          <p className="mt-3 text-lg leading-relaxed text-muted-foreground">
             {"One pack, three tiers. Same six core documents in every tier; the difference is what you can do with them."}
           </p>
         </div>
@@ -24,30 +25,35 @@ export function Tiers({ checkoutUrls }: { checkoutUrls: Record<TierKey, string |
               <Card
                 key={key}
                 className={cn(
-                  "flex flex-col bg-background",
+                  "flex flex-col bg-card",
                   featured && "border-primary ring-1 ring-primary",
                 )}
               >
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">{tier.name}</h3>
-                    {featured && <Badge>Most popular</Badge>}
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                      {tier.name}
+                    </h3>
+                    {featured && <Badge variant="solid">Most popular</Badge>}
                   </div>
-                  <div className="mt-2 text-3xl font-semibold tracking-tight">
+                  <div className="mt-3 font-serif text-4xl font-semibold tracking-tight">
                     {formatMoney(tier.price, tier.currency)}
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{tier.tagline}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {tier.tagline}
+                  </p>
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col">
-                  <ul className="flex-1 space-y-3 text-sm">
+                  <div className="h-px w-full bg-border" />
+                  <ul className="mt-5 flex-1 space-y-3 text-sm">
                     {tier.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
-                        <span>{b}</span>
+                      <li key={b} className="flex items-start gap-2.5">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-secondary" aria-hidden />
+                        <span className="leading-relaxed">{b}</span>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-6">
+                  <div className="mt-7">
                     <CheckoutButton
                       checkoutUrl={checkoutUrls[key]}
                       tier={key}
@@ -63,8 +69,8 @@ export function Tiers({ checkoutUrls }: { checkoutUrls: Record<TierKey, string |
             );
           })}
         </div>
-        <p className="mt-6 text-center text-xs text-muted-foreground">
-          Prices include VAT where applicable. Sold by Lemon Squeezy, our Merchant of Record.
+        <p className="mt-6 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+          Prices include VAT where applicable · Sold by Lemon Squeezy, our Merchant of Record
         </p>
       </div>
     </section>

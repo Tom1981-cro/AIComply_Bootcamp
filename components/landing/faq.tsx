@@ -43,19 +43,22 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
 
 export function Faq() {
   return (
-    <section id="faq" className="border-b border-border bg-surface">
+    <section id="faq" className="border-b border-border bg-background">
       <div className="mx-auto max-w-3xl px-6 py-20">
-        <h2 className="text-2xl font-semibold tracking-tight">Frequently asked questions</h2>
-        <div className="mt-8 divide-y divide-border rounded-lg border border-border bg-background">
+        <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">05</p>
+        <h2 className="mt-3 text-3xl tracking-tight">Frequently asked questions</h2>
+        <div className="mt-10 divide-y divide-border border-t border-border">
           {FAQ_ITEMS.map((item, i) => (
-            <details key={i} className="group px-5 py-4">
-              <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
-                {item.q}
-                <span className="ml-4 text-muted-foreground transition-transform group-open:rotate-45">
+            <details key={i} className="group py-5">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-4 font-medium">
+                <span className="leading-snug">{item.q}</span>
+                <span className="mt-0.5 shrink-0 font-mono text-lg leading-none text-accent transition-transform group-open:rotate-45">
                   +
                 </span>
               </summary>
-              <p className="mt-3 text-sm text-muted-foreground">{item.a}</p>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                {item.a}
+              </p>
             </details>
           ))}
         </div>

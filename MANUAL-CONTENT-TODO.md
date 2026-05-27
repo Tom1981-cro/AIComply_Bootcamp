@@ -11,9 +11,10 @@ Search the codebase for `[PLACEHOLDER]` and `TODO` to find every spot.
 
 ## 1. Decisions to confirm
 
-- [ ] **Design palette.** `lib/design-tokens.ts` + `app/globals.css` use a
-      placeholder palette (slate + blue + teal). Replace with the real AIComply
-      brand tokens.
+- [x] **Design palette.** Extracted from the Tier-1 executive deck and applied
+      in `lib/design-tokens.ts` + `app/globals.css`: cream paper, warm ink, plum
+      primary, forest-green + bronze accents; Fraunces (serif) / Inter / JetBrains
+      Mono. Adjust if the brand evolves.
 - [ ] **Sender / support address.** Confirm `toolkit@aicomply.com` as sender
       and update the support line in `lib/email/templates.ts`.
 - [ ] **Legal entity details** (name, address, VAT number) for the footer and

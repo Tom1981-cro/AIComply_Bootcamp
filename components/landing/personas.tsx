@@ -18,18 +18,19 @@ const PERSONAS = [
 
 export function Personas() {
   return (
-    <section className="border-b border-border bg-surface">
+    <section className="border-b border-border bg-background">
       <div className="mx-auto max-w-5xl px-6 py-20">
-        <h2 className="text-2xl font-semibold tracking-tight">Who this is for</h2>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+        <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">04</p>
+        <h2 className="mt-3 text-3xl tracking-tight">Who this is for</h2>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
           {PERSONAS.map((p) => (
-            <Card key={p.title} className="bg-background">
-              <CardContent className="p-6">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-accent/10 text-accent">
+            <Card key={p.title} className="bg-card">
+              <CardContent className="p-7">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-secondary/10 text-secondary">
                   <p.icon className="h-5 w-5" aria-hidden />
                 </span>
-                <h3 className="mt-4 font-semibold">{p.title}</h3>
-                <p className="mt-2 text-muted-foreground">{p.description}</p>
+                <h3 className="mt-5 text-xl">{p.title}</h3>
+                <p className="mt-3 leading-relaxed text-muted-foreground">{p.description}</p>
               </CardContent>
             </Card>
           ))}

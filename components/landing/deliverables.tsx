@@ -64,23 +64,29 @@ const DELIVERABLES: Deliverable[] = [
 
 export function Deliverables() {
   return (
-    <section id="deliverables" className="border-b border-border">
+    <section id="deliverables" className="border-b border-border bg-surface">
       <div className="mx-auto max-w-5xl px-6 py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-semibold tracking-tight">The six deliverables</h2>
+        <div className="max-w-2xl">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">03</p>
+          <h2 className="mt-3 text-3xl tracking-tight">The six deliverables</h2>
         </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {DELIVERABLES.map((d) => (
-            <Card key={d.title} className="bg-background">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <d.icon className="h-5 w-5" aria-hidden />
+          {DELIVERABLES.map((d, i) => (
+            <Card key={d.title} className="flex flex-col bg-card">
+              <CardContent className="flex flex-1 flex-col p-6">
+                <div className="flex items-start justify-between">
+                  <span className="font-mono text-sm text-accent">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <Badge variant="muted">{d.format}</Badge>
                 </div>
-                <h3 className="mt-4 font-semibold">{d.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{d.description}</p>
+                <div className="mt-5 flex items-center gap-2.5">
+                  <d.icon className="h-5 w-5 shrink-0 text-primary" aria-hidden />
+                  <h3 className="text-lg leading-snug">{d.title}</h3>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {d.description}
+                </p>
               </CardContent>
             </Card>
           ))}

@@ -1,38 +1,46 @@
 @import "tailwindcss";
 
 /*
- * Design tokens. Source of truth is lib/design-tokens.ts — keep these hex
- * values in sync. [PLACEHOLDER PALETTE — confirm against AIComply brand.]
+ * Design tokens — extracted from the Tier-1 executive deck.
+ * Source of truth is lib/design-tokens.ts; keep hex values in sync.
+ * Warm editorial palette: cream paper, warm ink, plum primary, green + bronze.
  */
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --surface: #f8fafc;
-  --surface-muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --primary: #1d4ed8;
-  --primary-foreground: #ffffff;
-  --accent: #0f766e;
-  --accent-foreground: #ffffff;
-  --ring: #1d4ed8;
-  --destructive: #b91c1c;
+  --background: #faf9f6;
+  --foreground: #1a1714;
+  --surface: #efede6;
+  --card: #ffffff;
+  --muted-foreground: #716b62;
+  --border: #e4ded2;
+  --input: #d9d3c6;
+  --primary: #3a1530;
+  --primary-strong: #4c1d3d;
+  --primary-foreground: #faf9f6;
+  --secondary: #2f4a3a;
+  --secondary-foreground: #faf9f6;
+  --accent: #b58754;
+  --accent-foreground: #1a1714;
+  --ring: #3a1530;
+  --destructive: #9b2c2c;
   --destructive-foreground: #ffffff;
-  --radius: 0.5rem;
+  --radius: 0.375rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
-  --color-surface-muted: var(--surface-muted);
-  --color-muted: var(--surface-muted);
+  --color-surface-muted: var(--surface);
+  --color-card: var(--card);
+  --color-muted: var(--surface);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
@@ -43,8 +51,9 @@
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 * {
@@ -54,6 +63,22 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Editorial display face for headings. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
 }

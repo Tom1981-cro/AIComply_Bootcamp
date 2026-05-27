@@ -7,14 +7,13 @@ const PARA_2 =
 
 export function LeadMagnetSection({ consentText }: { consentText: string }) {
   return (
-    <section id="lead-magnet" className="border-b border-border">
-      <div className="mx-auto max-w-2xl px-6 py-20 text-center">
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Free: the Article 50 disclosure pack
-        </h2>
-        <p className="mt-4 text-muted-foreground">{PARA_1}</p>
-        <p className="mt-3 text-muted-foreground">{PARA_2}</p>
-        <div className="mt-8 text-left">
+    <section id="lead-magnet" className="border-b border-border bg-surface">
+      <div className="mx-auto max-w-2xl px-6 py-20">
+        <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">06 — Free</p>
+        <h2 className="mt-3 text-3xl tracking-tight">The Article 50 disclosure pack</h2>
+        <p className="mt-5 leading-relaxed text-muted-foreground">{PARA_1}</p>
+        <p className="mt-3 leading-relaxed text-muted-foreground">{PARA_2}</p>
+        <div className="mt-8 rounded-lg border border-border bg-card p-6">
           <LeadMagnetForm consentText={consentText} />
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 const EYEBROW = "For SME operations leads and GDPR consultants";
 const HEADLINE =
@@ -9,18 +8,21 @@ const SUBHEAD =
 
 export function Hero() {
   return (
-    <section className="border-b border-border bg-surface">
-      <div className="mx-auto max-w-5xl px-6 py-24 text-center sm:py-32">
-        <Badge variant="muted" className="mb-6">
-          {EYEBROW}
-        </Badge>
-        <h1 className="mx-auto max-w-3xl text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+    <section className="border-b border-border bg-background">
+      <div className="mx-auto max-w-4xl px-6 py-24 sm:py-32">
+        <div className="flex items-center gap-3">
+          <span className="h-px w-8 bg-accent" aria-hidden />
+          <span className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+            {EYEBROW}
+          </span>
+        </div>
+        <h1 className="mt-6 max-w-3xl text-balance text-4xl leading-[1.08] tracking-tight text-foreground sm:text-5xl md:text-[3.5rem]">
           {HEADLINE}
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-balance text-lg text-muted-foreground">
+        <p className="mt-7 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground">
           {SUBHEAD}
         </p>
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg">
             <a href="#pricing">See what&apos;s inside — €49</a>
           </Button>
