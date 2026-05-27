@@ -10,6 +10,8 @@ export function formatMoney(minorUnits: number, currency = "EUR") {
   return new Intl.NumberFormat("en-IE", {
     style: "currency",
     currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(minorUnits / 100);
 }
 

@@ -35,11 +35,11 @@ export const TIERS: Record<TierKey, TierConfig> = {
     variantEnv: "LEMON_VARIANT_STARTER",
     files: [{ fileKey: "files/toolkit-starter.zip", label: "Starter toolkit (all 6 deliverables)" }],
     includesLoom: false,
-    tagline: "[PLACEHOLDER] One-line tagline for the Starter tier.",
+    tagline: "For one organisation putting its own house in order.",
     bullets: [
-      "[PLACEHOLDER] All 6 core deliverables",
-      "[PLACEHOLDER] DOCX / XLSX / PDF formats",
-      "[PLACEHOLDER] Single-organisation use",
+      "All six core deliverables",
+      "DOCX, XLSX, and PDF formats",
+      "Single-organisation use",
     ],
   },
   PRO: {
@@ -50,11 +50,11 @@ export const TIERS: Record<TierKey, TierConfig> = {
     variantEnv: "LEMON_VARIANT_PRO",
     files: [{ fileKey: "files/toolkit-pro.zip", label: "Pro toolkit (all 6 deliverables)" }],
     includesLoom: true,
-    tagline: "[PLACEHOLDER] One-line tagline for the Pro tier.",
+    tagline: "For the ops lead who wants to be walked through it once and shown why each clause is there.",
     bullets: [
-      "[PLACEHOLDER] Everything in Starter",
-      "[PLACEHOLDER] Loom walkthrough",
-      "[PLACEHOLDER] Editable source files",
+      "Everything in Starter",
+      "A 40-minute Loom walkthrough of each document, clause by clause, with the Article references",
+      "Editable source files (Markdown + structured templates) so you can regenerate variants",
     ],
   },
   CONSULTANT: {
@@ -68,11 +68,11 @@ export const TIERS: Record<TierKey, TierConfig> = {
       { fileKey: "files/white-label-license.pdf", label: "White-label license" },
     ],
     includesLoom: true,
-    tagline: "[PLACEHOLDER] One-line tagline for the Consultant tier.",
+    tagline: "For GDPR and privacy consultants delivering AI Act readiness to their own client base.",
     bullets: [
-      "[PLACEHOLDER] Everything in Pro",
-      "[PLACEHOLDER] White-label rights",
-      "[PLACEHOLDER] Multi-client use",
+      "Everything in Pro",
+      "White-label rights: remove our branding, add yours, deliver as your own work product",
+      "Multi-client use across your engagements",
     ],
   },
 };

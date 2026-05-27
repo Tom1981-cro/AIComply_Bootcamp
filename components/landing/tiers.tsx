@@ -12,7 +12,7 @@ export function Tiers({ checkoutUrls }: { checkoutUrls: Record<TierKey, string |
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl font-semibold tracking-tight">What&apos;s inside</h2>
           <p className="mt-3 text-muted-foreground">
-            [PLACEHOLDER] One line framing the three tiers.
+            {"One pack, three tiers. Same six core documents in every tier; the difference is what you can do with them."}
           </p>
         </div>
 

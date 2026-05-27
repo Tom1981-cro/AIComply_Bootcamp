@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s · EU AI Act SME Compliance Pack",
   },
   description:
-    "[PLACEHOLDER] A practical toolkit for SMEs and consultants preparing for the EU AI Act.",
+    "Six deliverables covering EU AI Act Articles 4, 26, and 50 obligations for SMEs and consultants — drafted, structured, and ready to adapt.",
 };
 
 export default function RootLayout({

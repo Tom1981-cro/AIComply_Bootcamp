@@ -8,9 +8,8 @@ export function Footer() {
           <div className="max-w-sm">
             <p className="font-semibold">EU AI Act SME Compliance Pack</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              [PLACEHOLDER] Legal entity name, registered address, and VAT number.
-              Sold by Lemon Squeezy, our Merchant of Record — VAT is handled at
-              checkout.
+              [Legal entity name, registered address, VAT number]. Sold by Lemon
+              Squeezy, our Merchant of Record — VAT handled at checkout.
             </p>
           </div>
           <nav className="flex flex-col gap-2 text-sm text-muted-foreground">
@@ -29,8 +28,8 @@ export function Footer() {
           </nav>
         </div>
         <p className="mt-10 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} [PLACEHOLDER legal entity]. This toolkit is
-          not legal advice.
+          © {new Date().getFullYear()} [legal entity]. This toolkit is not legal
+          advice.
         </p>
       </div>
     </footer>

@@ -1,8 +1,5 @@
-# [PLACEHOLDER] The problem
+You're an SME using AI tools — Copilot, a hiring screener, a customer support agent, an internal RAG system. You're not a Big Tech provider building foundation models, but the AI Act still applies to you as a deployer under Article 26, and your staff need documented AI literacy under Article 4 from 2 February 2025 onward.
 
-> TODO (human): 3–4 sentences max. Calm, specific, technically credible.
-> Reference actual Article numbers. No scare-copy, no "AVOID €35M FINES".
-> The buyer is sophisticated.
+The guidance from the AI Office is dense. The Commission's templates are written for legal teams at large providers. The consultancies quoting €15,000 for a gap assessment are pitching to enterprises with budget you don't have.
 
-[PLACEHOLDER] Describe the concrete, practical problem an SME ops lead or a
-GDPR consultant faces preparing for the EU AI Act — in plain, specific terms.
+What you actually need is a starting point: documents that name the right Articles, ask the right questions of your vendors, and give your DPO or external counsel something concrete to review — instead of a blank page.
