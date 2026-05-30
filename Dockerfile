@@ -63,9 +63,14 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 # CLI and the @prisma/* sibling packages it dynamically requires (engines,
 # engines-version, get-platform, debug, …) need to be present in node_modules
 # explicitly.
+#
+# We deliberately do NOT copy node_modules/.bin/prisma. Docker COPY
+# dereferences that symlink into a regular file, which then breaks Prisma's
+# wasm loader (it uses __dirname to find prisma_schema_build_bg.wasm and
+# would look in .bin/ instead of prisma/build/). Invoke the CLI by its real
+# package path in CMD instead.
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
 USER nextjs
@@ -74,4 +79,4 @@ EXPOSE 3000
 # Apply pending migrations, then start the server.
 # If migrate-deploy fails (e.g. DB unreachable) the container exits and
 # Dokploy will surface the failure rather than serving a half-broken app.
-CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy && node server.js"]
+CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js migrate deploy && node server.js"]
