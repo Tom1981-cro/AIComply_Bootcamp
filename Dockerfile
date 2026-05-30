@@ -34,9 +34,11 @@ RUN npx prisma generate
 RUN npm run build
 
 # =============================================================================
-# 3. runner — minimal runtime: standalone server + prisma CLI for migrations.
+# 3. production — minimal runtime: standalone server + prisma CLI for migrations.
+#    (Named `production` so Dokploy / Docker BuildKit defaults to it as the
+#    target stage. The previous name `runner` broke `--target production`.)
 # =============================================================================
-FROM node:20-alpine AS runner
+FROM node:20-alpine AS production
 WORKDIR /app
 RUN apk add --no-cache libc6-compat openssl
 
