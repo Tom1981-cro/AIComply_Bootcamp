@@ -20,7 +20,7 @@ export function optionalEnv(name: string): string | undefined {
   return value && value.length > 0 ? value : undefined;
 }
 
-/** Public base URL of the storefront, e.g. https://bootcamp.ai-comply.ie */
+/** Public base URL of the storefront, e.g. https://hub.ai-comply.ie */
 export function appUrl(): string {
   return optionalEnv("NEXT_PUBLIC_APP_URL") ?? "http://localhost:3000";
 }

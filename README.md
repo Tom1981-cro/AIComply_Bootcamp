@@ -22,7 +22,7 @@ download delivery, a re-download flow, and a minimal admin dashboard.
 
 ## Routing decision
 
-The storefront is served at the **`bootcamp.ai-comply.ie`** subdomain, so it
+The storefront is served at the **`hub.ai-comply.ie`** subdomain, so it
 lives at the app root (`/`) — no Next.js `basePath` needed. Transactional email
 is sent from `toolkit@aicomply.com`.
 
@@ -229,7 +229,7 @@ The 30-second version:
 1. New Dokploy project → add Postgres service inside it.
 2. Add Application → Git → this repo + branch → build type **Dockerfile** → port **3000**.
 3. Paste env from `.env.example`, point `DATABASE_URL` at the internal Postgres URL.
-4. Add domain (`bootcamp.ai-comply.ie`), enable Let's Encrypt.
+4. Add domain (`hub.ai-comply.ie`), enable Let's Encrypt.
 5. Deploy. First boot runs `prisma migrate deploy` then starts.
 6. Wire the Lemon Squeezy webhook to `/api/webhooks/lemon-squeezy` and verify the Resend sending domain.
 

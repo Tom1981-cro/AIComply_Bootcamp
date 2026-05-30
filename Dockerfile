@@ -28,7 +28,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 # Build-time NEXT_PUBLIC_APP_URL bakes into client JS — pass it via
 # Dokploy build args if the production URL differs from the default.
-ARG NEXT_PUBLIC_APP_URL=https://bootcamp.ai-comply.ie
+ARG NEXT_PUBLIC_APP_URL=https://hub.ai-comply.ie
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 RUN npx prisma generate
 RUN npm run build

@@ -121,7 +121,7 @@ items to round out:
 - [ ] **Admin**: set a strong `ADMIN_PASSWORD` (admin is locked until then).
 - [ ] **Database**: provision Postgres, set `DATABASE_URL`, run
       `npx prisma migrate deploy`.
-- [ ] **DNS**: point `bootcamp.ai-comply.ie` at the deployment; set
+- [ ] **DNS**: point `hub.ai-comply.ie` at the deployment; set
       `NEXT_PUBLIC_APP_URL` to match.
 
 ## 7. Known limitations to be aware of

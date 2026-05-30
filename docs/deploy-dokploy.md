@@ -61,7 +61,7 @@ to bring the storefront up:
 
 ```env
 # App
-NEXT_PUBLIC_APP_URL="https://bootcamp.ai-comply.ie"
+NEXT_PUBLIC_APP_URL="https://hub.ai-comply.ie"
 
 # Database — paste the internal URL from step 2
 DATABASE_URL="postgresql://aicomply:...@aicomply-pg:5432/aicomply"
@@ -105,13 +105,13 @@ Application's **Domains** tab → **Add Domain**.
 
 | Field | Value |
 | --- | --- |
-| Host | `bootcamp.ai-comply.ie` |
+| Host | `hub.ai-comply.ie` |
 | Path | `/` |
 | Port | `3000` |
 | HTTPS | ✅ |
 | Certificate | Let's Encrypt |
 
-Make sure `bootcamp.ai-comply.ie` has an A record pointing at the
+Make sure `hub.ai-comply.ie` has an A record pointing at the
 Dokploy host's public IP before saving — Let's Encrypt will fail
 issuance otherwise. Traefik handles the cert renewal afterwards.
 
@@ -132,11 +132,11 @@ Subsequent deploys take ~60–90s on top of the cache.
 
 ## 7. Post-deploy: wire the external webhooks
 
-Once `https://bootcamp.ai-comply.ie` is up:
+Once `https://hub.ai-comply.ie` is up:
 
 1. **Lemon Squeezy webhook** — LS dashboard → Settings → Webhooks → Add
    Webhook:
-   - URL: `https://bootcamp.ai-comply.ie/api/webhooks/lemon-squeezy`
+   - URL: `https://hub.ai-comply.ie/api/webhooks/lemon-squeezy`
    - Secret: same value as `LEMON_WEBHOOK_SECRET`
    - Events: `order_created` (minimum), plus refund events if you want
      automatic revocation
