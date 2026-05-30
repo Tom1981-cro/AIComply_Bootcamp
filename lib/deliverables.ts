@@ -53,6 +53,7 @@ export const DELIVERABLES: Deliverable[] = [
     format: "PPTX / DOCX / XLSX",
     shortDescription:
       "A staff training pack satisfying the Article 4 literacy obligation. Trainer's guide, three-tier quizzes, attendance register, certificate, and an evidence-dossier checklist.",
+    cover: "/marketing/covers/ai-literacy-training.png",
     productPageHeadline: "Article 4 AI literacy, evidenced.",
     productPageSubhead:
       "A complete training pack — trainer's guide, three-tier quizzes, attendance register, certificate, and the evidence dossier — drafted to satisfy Article 4 with a posture an authority can actually inspect.",
@@ -127,6 +128,7 @@ export const DELIVERABLES: Deliverable[] = [
     format: "DOCX / XLSX",
     shortDescription:
       "A documentation skeleton modelled on Annex IV of the Act. The structure forces you to articulate intended purpose, foreseeable misuse, and oversight measures — which insurers and enterprise customers will ask about regardless.",
+    cover: "/marketing/covers/annex-iv-techdoc.png",
     productPageHeadline:
       "Annex IV in simplified form — the dossier an SME provider can actually maintain.",
     productPageSubhead:
@@ -152,6 +154,7 @@ export const DELIVERABLES: Deliverable[] = [
     format: "PDF / DOCX / XLSX",
     shortDescription:
       "A phased plan: weeks 1–4 inventory and literacy, weeks 5–8 policy and vendor review, weeks 9–13 documentation and oversight design. Owner columns, review checkpoints, realistic internal-hour estimates per phase.",
+    cover: "/marketing/covers/90-day-roadmap.png",
     productPageHeadline: "A 90-day plan that tells you which weeks you can skip.",
     productPageSubhead:
       "Most AI Act roadmaps assume every obligation applies to you. This one starts by finding out whether they do — then sequences the work that's actually yours, and says so plainly when a week is light.",
@@ -176,6 +179,7 @@ export const DELIVERABLES: Deliverable[] = [
     format: "DOCX",
     shortDescription:
       "The questions to send your AI vendors before signing or renewing. Covers Article 16 provider obligations, conformity assessment status, technical documentation availability, post-market monitoring, and incident reporting. Returned answers slot directly into your system register.",
+    cover: "/marketing/covers/vendor-due-diligence.png",
     productPageHeadline: "The questions to ask your AI vendors — before signing.",
     productPageSubhead:
       "A structured questionnaire covering Article 16 provider obligations, conformity assessment status, technical documentation, post-market monitoring, and incident-reporting commitments — returned answers slot directly into the AI System Register.",
