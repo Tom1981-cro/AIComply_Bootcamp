@@ -57,9 +57,14 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Prisma CLI + schema for `migrate deploy` on container start.
-# (The @prisma/client runtime is already traced into the standalone bundle.)
+# Prisma CLI + engines for `migrate deploy` on container start.
+# The standalone bundle already includes @prisma/client (traced from imports),
+# but `prisma migrate deploy` is run from our CMD, not from app code, so the
+# CLI and the @prisma/* sibling packages it dynamically requires (engines,
+# engines-version, get-platform, debug, …) need to be present in node_modules
+# explicitly.
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
