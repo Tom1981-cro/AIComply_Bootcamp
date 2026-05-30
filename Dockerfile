@@ -57,21 +57,25 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Prisma CLI + engines for `migrate deploy` on container start.
-# The standalone bundle already includes @prisma/client (traced from imports),
-# but `prisma migrate deploy` is run from our CMD, not from app code, so the
-# CLI and the @prisma/* sibling packages it dynamically requires (engines,
-# engines-version, get-platform, debug, …) need to be present in node_modules
-# explicitly.
+# Prisma CLI for runtime migrations.
 #
-# We deliberately do NOT copy node_modules/.bin/prisma. Docker COPY
-# dereferences that symlink into a regular file, which then breaks Prisma's
-# wasm loader (it uses __dirname to find prisma_schema_build_bg.wasm and
-# would look in .bin/ instead of prisma/build/). Invoke the CLI by its real
-# package path in CMD instead.
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+# The standalone bundle at /app/node_modules already contains everything the
+# *app* needs (including @prisma/client, traced from imports). The CLI is
+# only needed by our CMD to run `migrate deploy` once on container start.
+#
+# Earlier attempts copied node_modules/prisma + @prisma sub-trees from the
+# builder, but Prisma 6's CLI has transitive deps outside the @prisma scope
+# (`effect`, etc.) and copying selectively keeps missing one. Do a clean
+# `npm install` in an isolated /app/scripts/ folder instead — gives us a
+# correct node_modules layout with every transitive dep, and keeps the
+# standalone bundle's node_modules at /app/node_modules untouched.
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+RUN mkdir -p /app/scripts \
+ && cd /app/scripts \
+ && echo '{"name":"runtime-prisma","private":true}' > package.json \
+ && npm install --no-save --omit=optional --omit=dev prisma@^6 \
+ && npm cache clean --force \
+ && chown -R nextjs:nodejs /app/scripts
 
 USER nextjs
 EXPOSE 3000
@@ -79,4 +83,4 @@ EXPOSE 3000
 # Apply pending migrations, then start the server.
 # If migrate-deploy fails (e.g. DB unreachable) the container exits and
 # Dokploy will surface the failure rather than serving a half-broken app.
-CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js migrate deploy && node server.js"]
+CMD ["sh", "-c", "node /app/scripts/node_modules/prisma/build/index.js migrate deploy && node server.js"]
