@@ -1,0 +1,41 @@
+# Exclude from the docker build context — these are either regenerated
+# inside the image, contain secrets, or are dev-only.
+
+.git
+.gitignore
+.github
+
+# Build / dependency artefacts (rebuilt by the image)
+.next
+node_modules
+dist
+out
+
+# Local env + secrets
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.vscode
+.idea
+.DS_Store
+*.swp
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tests / docs we don't need at runtime
+coverage
+playwright-report
+test-results
+
+# Don't ship the Dockerfile or its ignore list inside the image
+Dockerfile
+.dockerignore
+
+# Local data
+/tmp
+*.log

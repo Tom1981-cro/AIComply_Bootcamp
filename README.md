@@ -219,17 +219,23 @@ filenames, update both that file and Object Storage.
 
 ## Deploy (Dokploy / Coolify on Hetzner, EU)
 
-1. Provision a **PostgreSQL** service; set `DATABASE_URL`.
-2. Create an application from this repo. Build command `npm run build`,
-   start command `npm run start`, port `3000`.
-3. Add all env vars from `.env.example`.
-4. Run migrations on deploy (e.g. a release/pre-start command
-   `npx prisma migrate deploy`).
-5. Point `bootcamp.ai-comply.ie` at the app; enable TLS.
-6. Set the Lemon Squeezy webhook URL to the live domain and do a test purchase.
+The repo ships a multi-stage `Dockerfile` and a `next.config.ts` set to
+`output: "standalone"`, so the app builds into a small self-contained
+image. Migrations run on container start before the server boots.
 
-> The app reads runtime env (the landing is `force-dynamic`), so env changes
-> take effect on restart without a rebuild.
+Full walkthrough: **[`docs/deploy-dokploy.md`](docs/deploy-dokploy.md)**.
+The 30-second version:
+
+1. New Dokploy project → add Postgres service inside it.
+2. Add Application → Git → this repo + branch → build type **Dockerfile** → port **3000**.
+3. Paste env from `.env.example`, point `DATABASE_URL` at the internal Postgres URL.
+4. Add domain (`bootcamp.ai-comply.ie`), enable Let's Encrypt.
+5. Deploy. First boot runs `prisma migrate deploy` then starts.
+6. Wire the Lemon Squeezy webhook to `/api/webhooks/lemon-squeezy` and verify the Resend sending domain.
+
+Multi-app on one Dokploy host is the standard pattern — each app is its
+own project with its own Postgres, its own env, its own subdomain. See
+the walkthrough for capacity / backup / rollback notes.
 
 ---
 
