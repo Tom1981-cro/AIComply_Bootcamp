@@ -16,7 +16,7 @@ download delivery, a re-download flow, and a minimal admin dashboard.
 - **PostgreSQL** via **Prisma**
 - **Lemon Squeezy** as Merchant of Record (hosted checkout overlay)
 - **Resend** for transactional email + audience
-- **Cloudflare R2** for protected downloads (signed, gated)
+- **Hetzner Object Storage** (S3-compatible) for protected downloads (signed, gated)
 - **PostHog** for product analytics (optional; no-ops when unset)
 - Deploy: Hetzner via **Dokploy/Coolify**, EU region
 
@@ -95,7 +95,7 @@ See [`.env.example`](./.env.example) for the full annotated list. Summary:
 | `RESEND_API_KEY` | for email | Resend API key |
 | `RESEND_FROM` | optional | Sender (default `toolkit@aicomply.com`) |
 | `RESEND_AUDIENCE_ID` | optional | "ai-act-sme" audience (skipped if unset) |
-| `R2_ACCOUNT_ID` / `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` / `R2_BUCKET` | for downloads | Cloudflare R2 |
+| `S3_ENDPOINT` / `S3_REGION` / `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY` / `S3_BUCKET` | for downloads | Hetzner Object Storage (S3-compatible) |
 | `LOOM_WALKTHROUGH_URL` | optional | Included with Pro + Consultant |
 | `ADMIN_USER` / `ADMIN_PASSWORD` | for `/admin` | Basic auth (admin locked out until password set) |
 | `POSTHOG_KEY` / `POSTHOG_HOST` | optional | Server-side analytics |
@@ -128,14 +128,14 @@ See [`.env.example`](./.env.example) for the full annotated list. Summary:
 - `subscription_created` is acknowledged + logged (no subscriptions in v1).
 
 ### Protected downloads (the "signed URL" gate)
-R2 presigned URLs only support expiry — not download caps or IP binding. So
-customers never get a raw R2 URL. They get a link to `/api/download/[grant]`
+S3 presigned URLs only support expiry — not download caps or IP binding. So
+customers never get a raw bucket URL. They get a link to `/api/download/[grant]`
 which enforces:
 - **1-hour** grant window,
 - **max 5** downloads,
 - **IP binding** (bound on first download),
 
-then 302-redirects to a freshly-minted, very short-lived (60s) R2 presigned URL.
+then 302-redirects to a freshly-minted, very short-lived (60s) S3 presigned URL.
 
 ### Re-download (`/orders/[order_id]`)
 Customer enters their purchase email → magic link (30-min) → page issues fresh
@@ -161,17 +161,44 @@ Admins can re-issue manually from `/admin` without consuming that cap.
 5. Test mode: enable test mode, run a test purchase, confirm an `Order` row
    appears and the fulfillment email sends.
 
-### Cloudflare R2
-1. Create a bucket → `R2_BUCKET`. Keep it **private** (no public access).
-2. Account → **R2 → Manage R2 API Tokens** → create a token with
-   Object Read/Write for that bucket → `R2_ACCESS_KEY_ID` /
-   `R2_SECRET_ACCESS_KEY`. Your account id → `R2_ACCOUNT_ID`.
-3. Upload the deliverable files under the `files/` prefix:
+### Hetzner Object Storage (S3-compatible)
+1. In the Hetzner Cloud Console → **Object Storage**, create a project and a
+   bucket → `S3_BUCKET`. Pick a location (Falkenstein / Nuremberg / Helsinki)
+   and set the matching endpoint + region:
+   - Falkenstein → `S3_ENDPOINT="https://fsn1.your-objectstorage.com"`, `S3_REGION="fsn1"`
+   - Nuremberg   → `S3_ENDPOINT="https://nbg1.your-objectstorage.com"`, `S3_REGION="nbg1"`
+   - Helsinki    → `S3_ENDPOINT="https://hel1.your-objectstorage.com"`, `S3_REGION="hel1"`
+2. Keep the bucket **private** (no public read).
+3. Create an **S3 credential** for the project → `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY`.
+4. Upload the deliverable bundles under the `files/` prefix:
    - `files/article-50-disclosure-pack.zip` (lead magnet)
    - `files/toolkit-starter.zip`, `files/toolkit-pro.zip`,
      `files/toolkit-consultant.zip`
    - `files/white-label-license.pdf`
    For local testing, any dummy zip/pdf with these keys works.
+
+> **A note on naming:** Hetzner ships two distinct storage products. "Hetzner
+> Object Storage" is S3-compatible (this is what the app uses). "Hetzner
+> Storage Box" is SFTP / WebDAV / SMB and is **not** S3 — picking it instead
+> would require swapping out `lib/storage.ts` for an SFTP-based delivery flow.
+> Confirm you're using Object Storage before going to production.
+
+### Assembling the tier bundles
+
+The six deliverables ship as individual product packages (see `lib/deliverables.ts`).
+For each customer-facing tier, zip the appropriate set together once and upload
+the result to Object Storage:
+
+| Bundle | Contents | Tier scope |
+| --- | --- | --- |
+| `toolkit-starter.zip` | All six v1.0 deliverable bundles + per-bundle READMEs | Starter / Pro / Consultant |
+| `toolkit-pro.zip` | Starter contents + editable Markdown/structured sources for prose docs | Pro / Consultant |
+| `toolkit-consultant.zip` | Pro contents + a `BRANDING.md` for the white-label workflow | Consultant only |
+| `white-label-license.pdf` | The consultant licence document | Consultant only |
+| `article-50-disclosure-pack.zip` | The free lead-magnet pack | Anyone who confirms email |
+
+The same `fileKey` → tier mapping lives in `lib/tiers.ts`; if you change the
+filenames, update both that file and Object Storage.
 
 ### Resend
 1. Add and **verify your sending domain** (`aicomply.com`): add the DKIM and
@@ -211,6 +238,7 @@ Admins can re-issue manually from `/admin` without consuming that cap.
 ```
 app/
   page.tsx                       landing (assembles sections)
+  products/[slug]/               per-deliverable product detail pages
   lead-magnet/confirm/           double opt-in confirmation
   orders/[order_id]/             re-download (magic link)
   legal/[doc]/                   placeholder legal pages
@@ -218,12 +246,17 @@ app/
   api/
     lead-magnet/                 capture
     webhooks/lemon-squeezy/      webhook + fulfillment
-    download/[grant]/            gated download → R2 presign
+    download/[grant]/            gated download → S3 presign
     orders/magic-link/           magic-link request
     admin/                       re-issue, CSV export
 components/landing/ …            landing sections
 components/ui/ …                 shadcn-style primitives
-lib/ …                           prisma, r2, resend, lemon, tiers, download, …
+lib/
+  deliverables.ts                six-deliverable catalog + product copy
+  storage.ts                     S3-compatible client (Hetzner Object Storage)
+  tiers.ts                       tier prices, variant ids, bundle file keys
+  prisma.ts, resend.ts, lemon.ts, download.ts, magic-link.ts, fulfillment.ts, …
 content/ …                       human-authored placeholder content
+public/marketing/                covers + carousels for product pages
 prisma/schema.prisma             data model
 ```

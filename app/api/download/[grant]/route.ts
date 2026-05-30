@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkGrant } from "@/lib/download";
-import { getPresignedDownloadUrl } from "@/lib/r2";
+import { getPresignedDownloadUrl } from "@/lib/storage";
 import { captureServer } from "@/lib/posthog";
 
 export const runtime = "nodejs";

@@ -63,20 +63,54 @@ generate these.
 - [ ] `content/deliverables/05-ninety-day-roadmap/` — roadmap PDF
 - [ ] `content/deliverables/06-vendor-due-diligence/` — vendor questionnaire
 
-## 5. Files to upload to Cloudflare R2 (private bucket, `files/` prefix)
+## 5. Files to upload to Hetzner Object Storage (private bucket, `files/` prefix)
 
-- [ ] `files/article-50-disclosure-pack.zip` (lead magnet)
-- [ ] `files/toolkit-starter.zip`
-- [ ] `files/toolkit-pro.zip`
-- [ ] `files/toolkit-consultant.zip`
-- [ ] `files/white-label-license.pdf`
+> Confirm you're using Hetzner **Object Storage** (S3-compatible), not Hetzner
+> **Storage Box** (SFTP/WebDAV). The app currently assumes the former.
+
+- [ ] `files/article-50-disclosure-pack.zip` (lead magnet — not yet provided)
+- [ ] `files/toolkit-starter.zip` — assemble from the six v1.0 deliverable bundles
+- [ ] `files/toolkit-pro.zip` — Starter + editable Markdown/structured sources
+- [ ] `files/toolkit-consultant.zip` — Pro + a BRANDING.md for white-label
+- [ ] `files/white-label-license.pdf` — consultant licence
 - [ ] Record a Loom walkthrough → set `LOOM_WALKTHROUGH_URL`
+
+## 5b. Marketing assets for product pages (`/public/marketing/`)
+
+Covers are 1200×1200 PNG, filename = deliverable slug. Two of six shipped;
+four still needed:
+
+- [x] `system-register.png` + `carousels/system-register.pdf`
+- [x] `acceptable-use-policy.png` + `carousels/acceptable-use-policy.pdf`
+- [ ] `ai-literacy-training.png`
+- [ ] `annex-iv-techdoc.png`
+- [ ] `90-day-roadmap.png`
+- [ ] `vendor-due-diligence.png`
+- [ ] Carousels for the four missing deliverables (optional)
+
+When you re-render covers / carousels with the proper brand fonts (Fraunces
++ Inter — DejaVu was used as substitute in v1), drop them in the same paths
+and the product pages pick them up automatically.
+
+## 5c. Product page long-form copy
+
+`lib/deliverables.ts` carries the per-deliverable headlines, subheads, body,
+and "what's inside" lists, sourced from the launch kits and READMEs. Two
+items to round out:
+
+- [ ] **Vendor Due Diligence Questionnaire** — full product README + launch
+      kit not yet drafted (currently `[PLACEHOLDER]`).
+- [ ] **AI Literacy Training** — no v1.0 README in the bundle (only the
+      individual component MDs). Either ship one in the bundle or expand the
+      copy in `lib/deliverables.ts` directly.
 
 ## 6. External services to configure (see README walkthroughs)
 
 - [ ] **Lemon Squeezy**: store, 3 products/variants (€49/€149/€399), webhook
       with signing secret, fill `LEMON_*` env vars. Test a purchase in test mode.
-- [ ] **Cloudflare R2**: private bucket + API token; fill `R2_*` env vars.
+- [ ] **Hetzner Object Storage**: private bucket + S3 credentials; set
+      `S3_ENDPOINT`/`S3_REGION` (Falkenstein/Nuremberg/Helsinki) and
+      `S3_ACCESS_KEY_ID`/`S3_SECRET_ACCESS_KEY`/`S3_BUCKET`.
 - [ ] **Resend**: verify the `aicomply.com` sending domain (DKIM + SPF +
       DMARC DNS records), create API key + "ai-act-sme" audience.
 - [ ] **PostHog** (optional): self-hosted EU instance URL + keys, or leave unset.

@@ -1,38 +1,39 @@
 /**
  * Design tokens for the EU AI Act SME Compliance Pack storefront.
  *
- * Extracted from the Tier-1 executive slide deck so the storefront matches the
- * brand: a warm, editorial palette (cream paper, warm ink, aubergine/plum
- * primary, forest-green and bronze accents) with a serif display face.
- * Source of truth is mirrored as CSS custom properties in app/globals.css.
+ * Source of truth for the brand palette is the marketing-kit README that ships
+ * with the carousel/cover assets. These values match the brand reference table
+ * (aubergine, gold, cream, body grey) so the storefront is visually aligned
+ * with the cover images, carousels, and one-pagers.
  *
- * Tone (per brief): calm, specific, technically credible. No scare-copy.
+ * Source of truth is mirrored as CSS custom properties in app/globals.css.
  */
 
 export const colors = {
   // Surfaces
-  background: "#FAF9F6", // paper
-  surface: "#EFEDE6", // cream band (alternating sections)
+  background: "#FAF6F0", // cream paper (brand)
+  surface: "#F1ECE0", // band — slightly darker cream
   card: "#FFFFFF",
 
   // Text
-  foreground: "#1A1714", // warm near-black ink
-  muted: "#716B62", // taupe, secondary text
+  foreground: "#4A4A4A", // body grey (brand)
+  ink: "#2D1736", // header / headlines (brand, darker plum tone)
+  muted: "#8A7E7E", // muted small-caps (brand)
 
   // Lines
-  border: "#E4DED2", // warm hairline
+  border: "#E5DCCB", // warm hairline
 
   // Brand
-  primary: "#3A1530", // aubergine / plum
-  primaryStrong: "#4C1D3D", // lighter plum (gradients / emphasis)
-  primaryForeground: "#FAF9F6",
-  secondary: "#2F4A3A", // forest green
-  secondaryForeground: "#FAF9F6",
-  accent: "#B58754", // bronze / tan
-  accentForeground: "#1A1714",
+  primary: "#3E1F47", // aubergine (brand)
+  primaryStrong: "#2D1736", // darker header-bar tone (brand)
+  primaryForeground: "#FAF6F0",
+  accent: "#B89968", // gold (brand)
+  accentForeground: "#2D1736",
+  secondary: "#2F4A3A", // forest green (deck — used sparingly)
+  secondaryForeground: "#FAF6F0",
 
   // States
-  ring: "#3A1530",
+  ring: "#3E1F47",
   destructive: "#9B2C2C", // restrained, errors only
 } as const;
 

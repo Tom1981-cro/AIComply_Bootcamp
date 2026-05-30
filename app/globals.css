@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — extracted from the Tier-1 executive deck.
- * Source of truth is lib/design-tokens.ts; keep hex values in sync.
- * Warm editorial palette: cream paper, warm ink, plum primary, green + bronze.
+ * Brand design tokens — sourced from the marketing kit (covers + carousels).
+ * Source of truth: lib/design-tokens.ts. Keep hex values in sync.
  */
 :root {
-  --background: #faf9f6;
-  --foreground: #1a1714;
-  --surface: #efede6;
+  --background: #faf6f0;
+  --foreground: #4a4a4a;
+  --ink: #2d1736;
+  --surface: #f1ece0;
   --card: #ffffff;
-  --muted-foreground: #716b62;
-  --border: #e4ded2;
-  --input: #d9d3c6;
-  --primary: #3a1530;
-  --primary-strong: #4c1d3d;
-  --primary-foreground: #faf9f6;
+  --muted-foreground: #8a7e7e;
+  --border: #e5dccb;
+  --input: #d6cab1;
+  --primary: #3e1f47;
+  --primary-strong: #2d1736;
+  --primary-foreground: #faf6f0;
   --secondary: #2f4a3a;
-  --secondary-foreground: #faf9f6;
-  --accent: #b58754;
-  --accent-foreground: #1a1714;
-  --ring: #3a1530;
+  --secondary-foreground: #faf6f0;
+  --accent: #b89968;
+  --accent-foreground: #2d1736;
+  --ring: #3e1f47;
   --destructive: #9b2c2c;
   --destructive-foreground: #ffffff;
   --radius: 0.375rem;
@@ -29,6 +29,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface);
   --color-card: var(--card);
@@ -68,14 +69,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Editorial display face for headings. */
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+/* Editorial display face — brand pairing (Fraunces). Headings sit slightly
+ * darker than body grey for hierarchy, in the brand's header-bar tone.
+ * In @layer base so Tailwind color utilities (e.g. text-primary-foreground)
+ * still win on per-instance overrides like the plum closing-CTA. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
 }
 
 ::selection {
